@@ -1,17 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <Calcul msg="Welcome to Your Vue.js App" />
+    <button class="btn" @click="showForm">ADD NEW COST</button>
+    <AddPaymentForm v-if="show" @addNewPayment="addNewPayment" />
+    <PaymentsDisplay :items="paymentsList" />
   </div>
 </template>
 
 <script>
-import Calcul from "./components/Calcul.vue";
-
+import PaymentsDisplay from "./components/PaymentDisplay.vue";
+import AddPaymentForm from "./components/AddPaymentForm.vue";
 export default {
   name: "App",
   components: {
-    Calcul,
+    PaymentsDisplay,
+    AddPaymentForm,
+  },
+  data() {
+    return {
+      paymentsList: [],
+      show: false,
+    };
+  },
+  methods: {
+    fetchData() {
+      return [
+        {
+          date: "28.03.2020",
+          category: "Food",
+          value: 169,
+        },
+        {
+          date: "24.03.2020",
+          category: "Transport",
+          value: 360,
+        },
+        {
+          date: "24.03.2020",
+          category: "Food",
+          value: 532,
+        },
+      ];
+    },
+    addNewPayment(data) {
+      this.paymentsList = [...this.paymentsList, data];
+    },
+    showForm() {
+      this.show = !this.show;
+    },
+  },
+  created() {
+    this.paymentsList = this.fetchData();
   },
 };
 </script>
@@ -24,5 +62,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.btn {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+  margin-bottom: 20px;
 }
 </style>
